@@ -68,7 +68,12 @@ function production {
     if [[ `echo ${mode} | grep -i prod -c` -gt 0 ]]; then
         pm2 --name ${project_name} start npm -- start
     else
-        cd /var/www/strapi/ && yarn --watch-admin
+        cd /var/www/${project_name}/ && yarn --watch-admin
+
+        #
+        # this will keep the server log open in this window
+        #
+        yarn develop
     fi
 } 
 
