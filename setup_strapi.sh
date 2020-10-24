@@ -67,7 +67,11 @@ function develop {
 
 function production {   
     if [[ `echo ${mode} | grep -i prod -c` -gt 0 ]]; then
+        cd /var/www/${project_name}
         pm2 --name ${project_name} start npm -- start
+    elif [[ `echo ${mode} | grep -i stop -c` -gt 0 ]]; then
+        cd /var/www/${project_name}
+        pm2 delete 0
     else
         cd /var/www/${project_name}/ && yarn --watch-admin
 
@@ -80,6 +84,8 @@ function production {
         yarn generate:controller --api ${project_name}
         yarn generate:model ${project_name} --api ${project_name}
         yarn generate:service ${project_name} --api {$project_name}
+        yarn console
+        yarn develop
     fi
 } 
 
