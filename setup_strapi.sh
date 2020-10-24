@@ -34,7 +34,7 @@ install_dir=/var/www/
 #
 
 function develop {
-    cd ${install_dir}
+    cd ${install_dir}/${project_name}
     apt update
     apt-get install -y nodejs=14.14.0-1nodesource1
     apt-get install -y mongodb
@@ -61,6 +61,7 @@ function develop {
     echo "create stratpi-app-------------------------------------------------"
     yarn create strapi-app ${project_name}
     cd ${project_name}
+    touch alexis
     echo "-------------------------------------------------"
 }
 
@@ -73,7 +74,12 @@ function production {
         #
         # this will keep the server log open in this window
         #
-        yarn develop
+        yarn develop --watch-admin
+        yarn build
+        yarn generate:api --plugin content-manager ${project_name}
+        yarn generate:controller --api ${project_name}
+        yarn generate:model ${project_name} --api ${project_name}
+        yarn generate:service ${project_name} --api {$project_name}
     fi
 } 
 
