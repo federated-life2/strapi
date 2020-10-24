@@ -68,7 +68,7 @@ function production {
     if [[ `echo ${mode} | grep -i prod -c` -gt 0 ]]; then
         pm2 --name ${project_name} start npm -- start
     else
-        yarn develop
+        cd /var/www/strapi/ && yarn --watch-admin
     fi
 } 
 
